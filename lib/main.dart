@@ -27,7 +27,6 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
-  int questionNumber = 0;
   QuizBrain quizBrain = QuizBrain();
 
   @override
@@ -42,7 +41,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.questionBank[questionNumber].questionText,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -68,8 +67,7 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked true.
 
-                if (quizBrain.questionBank[questionNumber].questionAnswer ==
-                    true) {
+                if (quizBrain.getCorrectAnser() == true) {
                   scoreKeeper.add(Icon(
                     Icons.check,
                     color: Colors.green,
@@ -83,8 +81,7 @@ class _QuizPageState extends State<QuizPage> {
 
                 setState(() {
                   // scoreKeeper.clear();
-                  questionNumber++;
-                  print(questionNumber);
+                  quizBrain.nextQuestion();
                 });
               },
             ),
@@ -103,8 +100,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                if (quizBrain.questionBank[questionNumber].questionAnswer ==
-                    false) {
+                if (quizBrain.getCorrectAnser() == false) {
                   scoreKeeper.add(Icon(
                     Icons.check,
                     color: Colors.green,
@@ -117,8 +113,7 @@ class _QuizPageState extends State<QuizPage> {
                 }
 
                 setState(() {
-                  questionNumber++;
-                  print(questionNumber);
+                  quizBrain.nextQuestion();
                 });
               },
             ),
