@@ -30,12 +30,17 @@ class QuizBrain {
         true),
   ];
 
-  bool nextQuestion() {
+  bool hasNext() {
     if (_questionNumber < _questionBank.length - 1) {
-      _questionNumber++;
       return true;
     } else {
       return false;
+    }
+  }
+
+  void nextQuestion() {
+    if (hasNext()) {
+      _questionNumber++;
     }
   }
 
@@ -45,6 +50,7 @@ class QuizBrain {
   }
 
   bool getCorrectAnser() {
+    if (_questionBank.length <= _questionNumber) return false;
     return _questionBank[_questionNumber].questionAnswer;
   }
 }

@@ -31,22 +31,24 @@ class _QuizPageState extends State<QuizPage> {
   QuizBrain quizBrain = QuizBrain();
 
   void checkAnswer(bool userAnswer, BuildContext context) {
-    if (quizBrain.getCorrectAnser() == userAnswer) {
-      scoreKeeper.add(Icon(
-        Icons.check,
-        color: Colors.green,
-      ));
-    } else {
-      scoreKeeper.add(Icon(
-        Icons.close,
-        color: Colors.red,
-      ));
-    }
-    setState(() {
-      if (!quizBrain.nextQuestion()) {
-        _onFinishAlertPressed(context);
+    if (quizBrain.hasNext()) {
+      if (quizBrain.getCorrectAnser() == userAnswer) {
+        scoreKeeper.add(Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+      } else {
+        scoreKeeper.add(Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
       }
-    });
+      setState(() {
+        quizBrain.nextQuestion();
+      });
+    } else {
+      _onFinishAlertPressed(context);
+    }
   }
 
   @override
