@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzler/quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(Quizzler());
 
@@ -29,7 +30,7 @@ class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
   QuizBrain quizBrain = QuizBrain();
 
-  void checkAnswer(bool userAnswer) {
+  void checkAnswer(bool userAnswer, BuildContext context) {
     if (quizBrain.getCorrectAnser() == userAnswer) {
       scoreKeeper.add(Icon(
         Icons.check,
@@ -42,7 +43,9 @@ class _QuizPageState extends State<QuizPage> {
       ));
     }
     setState(() {
-      quizBrain.nextQuestion();
+      if (!quizBrain.nextQuestion()) {
+        _onFinishAlertPressed(context);
+      }
     });
   }
 
@@ -83,7 +86,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
-                checkAnswer(true);
+                checkAnswer(true, context);
               },
             ),
           ),
@@ -101,7 +104,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                checkAnswer(false);
+                checkAnswer(false, context);
               },
             ),
           ),
@@ -113,4 +116,12 @@ class _QuizPageState extends State<QuizPage> {
       ],
     );
   }
+}
+
+_onFinishAlertPressed(context) {
+  Alert(
+    context: context,
+    title: "Finished",
+    desc: "Quiz is done.",
+  ).show();
 }
